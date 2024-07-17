@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
-import { SIGNUP_ROUTE } from "@/utils/constants";
+import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -29,8 +29,24 @@ const Auth = ()=>{
         return true;
     }
 
-    const handleLogin = async()=>{
+    const validateLogin = ()=>{
+        if(!email.length){
+            toast.error("Email is required");
+            return false;
+        }
+        if(!password.length){
+            toast.error("Password is required");
+            return false;
+        }
+        
+        return true;
+    }
 
+    const handleLogin = async()=>{
+        if(validateLogin()){
+            const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials: true});
+            console.log({response});
+        }
     };
 
     const handleSignup = async()=>{
