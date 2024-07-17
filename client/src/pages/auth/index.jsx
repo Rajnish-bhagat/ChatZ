@@ -3,19 +3,41 @@ import Victory from "@/assets/victory.svg"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { apiClient } from "@/lib/api-client";
+import { SIGNUP_ROUTE } from "@/utils/constants";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const Auth = ()=>{
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
 
+    const validateSignup = ()=>{
+        if(!email.length){
+            toast.error("Email is required");
+            return false;
+        }
+        if(!password.length){
+            toast.error("Password is required");
+            return false;
+        }
+        if(confirmPassword !== password){
+            toast.error("Password and Confirm Password should be the same!");
+            return false;
+        }
+        return true;
+    }
+
     const handleLogin = async()=>{
 
     };
 
     const handleSignup = async()=>{
-
+        if(validateSignup()){
+            const response = await apiClient.post(SIGNUP_ROUTE, {email, password}, {withCredentials: true});
+            console.log({response});
+        }
     };
 
     return <div className="h-[100vh] w-[100vw] flex items-center justify-center ">
