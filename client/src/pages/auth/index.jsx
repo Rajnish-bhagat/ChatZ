@@ -4,11 +4,15 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { apiClient } from "@/lib/api-client";
+import { useAppStore } from "@/store";
 import { LOGIN_ROUTE, SIGNUP_ROUTE } from "@/utils/constants";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const Auth = ()=>{
+    const navigate = useNavigate();
+    const {setUserInfo} = useAppStore();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -45,6 +49,24 @@ const Auth = ()=>{
     const handleLogin = async()=>{
         if(validateLogin()){
             const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials: true});
+
+            // if(response.data.user.id){
+            //     setUserInfo(response.data.user)
+            //     if(response.data.user.profileSetup){
+            //         navigate("/chat");
+            //     }else{
+            //         navigate("/profile");
+            //     }
+            // }
+
+            if(response.data && response.data.user && response.data.user.id){
+                setUserInfo(response.data.user)
+                if(response.data.user.profileSetup){
+                    navigate("/chat");
+                }else{
+                    navigate("/profile");
+                }
+            }
             console.log({response});
         }
     };
@@ -52,6 +74,10 @@ const Auth = ()=>{
     const handleSignup = async()=>{
         if(validateSignup()){
             const response = await apiClient.post(SIGNUP_ROUTE, {email, password}, {withCredentials: true});
+            if(response.status===201){
+                setUserInfo(response.data.user)
+                navigate("/profile");
+            }
             console.log({response});
         }
     };
@@ -73,7 +99,7 @@ const Auth = ()=>{
                 </div>
 
                 <div className="flex items-center justify-center w-full">
-                    <Tabs defaultValue="account" className="w-3/4">
+                    <Tabs defaultValue="login" className="w-3/4">
                         <TabsList className="bg-transparent rounded-none w-full">
                             <TabsTrigger value="login" 
                             className="data-[state=active]:bg-transparent text-black text-opacity-90 border-b-2 rounded-none w-full data-[state=active]:text-black data-[state=active]:font-semibold data-[state=active]:border-b-purple-500 p-3 transition-all duration-300">Login</TabsTrigger>

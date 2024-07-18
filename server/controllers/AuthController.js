@@ -3,8 +3,8 @@ import User from "../models/UserModel.js";
 import { compare } from "bcrypt";
 
 const maxAge = 3 * 24 * 60 * 60 * 1000;
-const createToken = (email, userID) =>{
-    return jwt.sign({email, userID}, process.env.JWT_KEY, {expiresIn: maxAge});
+const createToken = (email, userId) =>{
+    return jwt.sign({email, userId}, process.env.JWT_KEY, {expiresIn: maxAge});
 };
 
 export const signup = async (request,response,next)=>{
@@ -47,7 +47,7 @@ export const login = async (request,response,next)=>{
         const user = await User.findOne({email});
         
         if(!user){
-            return response.status(400).send("User with the entered email not found!");
+            return response.status(404).send("User with the entered email not found!");
         }
 
         const auth =  await compare(password, user.password);
@@ -63,7 +63,6 @@ export const login = async (request,response,next)=>{
         })
 
         return response.status(200).json({
-            user:{
                 id: user.id,
                 email: user.email,
                 profileSetup: user.profileSetup,
@@ -71,9 +70,32 @@ export const login = async (request,response,next)=>{
                 lastName: user.lastName,
                 image: user.image,
                 color: user.color,
-            }
         })
 
+
+    }catch(err){
+        console.log({err});
+        return response.status(500).send("Internal Server Error");
+    }
+}
+
+
+export const getUserInfo = async (request,response,next)=>{
+    try{
+        const userData = await User.findById(request.userId);
+
+        if(!userData){
+            return response.status(404).send("User with the given id not found!");
+        }
+        return response.status(200).json({      
+                id: userData.id,
+                email: userData.email,
+                profileSetup: userData.profileSetup,
+                firstName: userData.firstName,
+                lastName: userData.lastName,
+                image: userData.image,
+                color: userData.color,
+        })
 
     }catch(err){
         console.log({err});
