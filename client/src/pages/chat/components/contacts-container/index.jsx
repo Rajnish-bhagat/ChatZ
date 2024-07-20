@@ -1,21 +1,27 @@
-const ContactsContainer = ()=>{
-    return <div className="relative md:w-[35vw] lg:w-[30vw] xl-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full ">
-        <div className="pt-3">
-            <Logo/>
-        </div>
-        <div className="my-5">
-            <div className="flex items-center justify-between pr-10">
-                <Title title="Direct Messages"/>
-            </div>
-        </div>
+import ProfileInfo from "./components/profile-info";
 
-        <div className="my-5">
-            <div className="flex items-center justify-between pr-10">
-                <Title title="Channels"/>
-            </div>
-        </div>
+const ContactsContainer = ()=>{
+    return (
+    <div className="relative md:w-[35vw] lg:w-[30vw] xl-[20vw] bg-[#1b1c24] border-r-2 border-[#2f303b] w-full ">
+      <div className="pt-3">
+          <Logo/>
+      </div>
+      <div className="my-5">
+          <div className="flex items-center justify-between pr-10">
+              <Title title="Direct Messages"/>
+          </div>
+      </div>
+
+      <div className="my-5">
+          <div className="flex items-center justify-between pr-10">
+              <Title title="Channels"/>
+          </div>
+      </div>
+      <ProfileInfo/>
     </div>
+  )
 } 
+
 
 
 const Logo = () => {
