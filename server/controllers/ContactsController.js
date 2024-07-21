@@ -4,7 +4,7 @@ export const searchContacts = async (request,response,next)=>{
     try{
         const {searchTerm} = request.body;
 
-        if(searchTerm===undefined || searchTerm===null){
+        if(searchTerm === undefined || searchTerm === null){
             return response.status(400).send("searchTerm is required")
         }
 
@@ -13,7 +13,7 @@ export const searchContacts = async (request,response,next)=>{
             "\\$&"
         );
 
-        const regex =   new RegExp(sanitizedSearchTerm, "i");
+        const regex = new RegExp(sanitizedSearchTerm, "i");
 
         const contacts = await User.find({
             $and :[
