@@ -64,6 +64,7 @@ export const login = async (request,response,next)=>{
         })
 
         return response.status(200).json({
+            user:{
                 id: user.id,
                 email: user.email,
                 profileSetup: user.profileSetup,
@@ -71,6 +72,7 @@ export const login = async (request,response,next)=>{
                 lastName: user.lastName,
                 image: user.image,
                 color: user.color,
+            }
         })
 
 
@@ -176,6 +178,17 @@ export const removeProfileImage = async (request,response,next)=>{
         await user.save()
 
         return response.status(200).send("Profile image removed successfully!")
+
+    }catch(err){
+        console.log({err});
+        return response.status(500).send("Internal Server Error");
+    }
+}
+
+export const logout = async (request,response,next)=>{
+    try{
+        response.cookie("jwt","", {maxAge:1, secure:true, sameSite:"None"});
+        return response.status(200).send("Logout successful!")
 
     }catch(err){
         console.log({err});

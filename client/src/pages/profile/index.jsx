@@ -85,8 +85,6 @@ const Profile = ()=>{
             formData.append("profile-image", file);
 
             const response = await apiClient.post(ADD_PROFILE_IMAGE_ROUTE,formData,{withCredentials:true});
-            // console.log("hellx")
-            // console.log(response);
 
             if(response.status===200 && response.data.image){
                 setUserInfo({...userInfo,image: response.data.image});

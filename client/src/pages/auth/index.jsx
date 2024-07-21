@@ -50,16 +50,7 @@ const Auth = ()=>{
         if(validateLogin()){
             const response = await apiClient.post(LOGIN_ROUTE, {email, password}, {withCredentials: true});
 
-            // if(response.data.user.id){
-            //     setUserInfo(response.data.user)
-            //     if(response.data.user.profileSetup){
-            //         navigate("/chat");
-            //     }else{
-            //         navigate("/profile");
-            //     }
-            // }
-
-            if(response.data && response.data.user && response.data.user.id){
+            if(response.status===200){
                 setUserInfo(response.data.user)
                 if(response.data.user.profileSetup){
                     navigate("/chat");
