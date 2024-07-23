@@ -34,12 +34,10 @@ const NewDM=()=>{
     }
 
     const selectNewContact = (contact)=>{
-        console.log("Here")
         setOpenNewContactModel(false);
         setSelectedChatType("contact"); 
         setSelectedChatData(contact);
         setSearchedContacts([]);
-        console.log("There")
     }
 
     return <div>
@@ -76,7 +74,7 @@ const NewDM=()=>{
                                                         <AvatarImage 
                                                             src={`${HOST}/${contact.image}`}
                                                             alt="Profile"
-                                                            className="object-cover w-full h-full bg-black"
+                                                            className="object-cover w-full h-full bg-black rounded-full"
                                                             />) 
                                                             : (<div className={`uppercase h-12 w-12 text-lg border-[1px] flex items-center justify-center rounded-full ${getColor(contact.color)}`}>
                                                             {
