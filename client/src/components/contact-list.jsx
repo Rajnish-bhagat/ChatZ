@@ -1,6 +1,7 @@
 import { useAppStore } from "@/store";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { getColor } from "@/lib/utils";
+import { HOST } from "@/utils/constants";
 
 const ContactList = ({contacts, isChannel = false})=>{
     const {selectedChatData, setSelectedChatData, selectedChatType, setSelectedChatType, setSelectedChatMessages} = useAppStore();

@@ -17,11 +17,13 @@ const channelSchema = new mongoose.Schema({
         ref:"Users", 
         required: true
     },
-    messages: {
-        type:mongoose.Schema.ObjectId, 
-        ref:"Messages", 
-        required: false
-    },
+    messages: [
+        {
+            type:mongoose.Schema.ObjectId, 
+            ref:"Messages", 
+            required: false
+        }
+    ],
     createdAt:{
         type: Date,
         default: Date.now()
@@ -38,7 +40,7 @@ channelSchema.pre("save",function(next){
 })
 
 channelSchema.pre("findOneAndUpdate",function(next){
-    this.supdatedAt({updatedAt: Date.now()});
+    this.set({updatedAt: Date.now()});
     next();
 })
 
